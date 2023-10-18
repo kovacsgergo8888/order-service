@@ -1,0 +1,39 @@
+POST http://localhost/api/orders
+Content-Type: application/json
+Accept: application/json
+
+{
+    "name": "Johnny Silverhand",
+    "email": "arasaki@hater.com",
+    "shippingType": "COURIER_SHIPPING",
+    "shippingName": "Test John",
+    "shippingPostcode": "1234",
+    "shippingCity": "Night City",
+    "shippingAddress": "Street 1",
+    "billingName": "Test John",
+    "billingPostcode": "1234",
+    "billingCity": "Night City",
+    "billingAddress": "Street 2",
+    "orderProducts": [
+        {
+            "name": "Gun",
+            "price": 4000,
+            "quantity": 4
+        },
+        {
+            "name": "medpack",
+            "price": 300,
+            "quantity": 10
+        }
+    ]
+}
+
+###
+
+POST http://localhost/api/order/9a64d9d8-f5b1-4ad3-95b1-96619b3cc843/status
+Content-Type: application/json
+Accept: application/json
+
+{
+    "status": "FULLFILLED"
+}
