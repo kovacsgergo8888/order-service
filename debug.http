@@ -37,3 +37,13 @@ Accept: application/json
 {
     "status": "FULLFILLED"
 }
+
+###
+
+POST http://localhost/api/orders/list
+Content-Type: application/json
+Accept: application/json
+
+{
+    "status": "FULLFILLED"
+}

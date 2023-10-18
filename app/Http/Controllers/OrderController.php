@@ -10,17 +10,6 @@ use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request): JsonResponse
     {
         $data = $request->toArray();
@@ -41,31 +30,7 @@ class OrderController extends Controller
 
         $order->orderProducts()->createMany($data['orderProducts']);
 
-        return new JsonResponse(['orderId' => $order->order_id]);
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Order $order)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Order $order)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Order $order)
-    {
-        //
+        return new JsonResponse(['order_id' => $order->order_id]);
     }
 
     public function status(Request $request, string $orderId): JsonResponse
@@ -76,5 +41,30 @@ class OrderController extends Controller
         $order->status = OrderStatus::from($data['status'])->value;
         $order->save();
         return new JsonResponse($order);
+    }
+
+    public function list(Request $request): JsonResponse
+    {
+        $data = $request->toArray();
+
+        $query = Order::query();
+
+        if ($data['order_id'] ?? false) {
+            $query->where('order_id', $data['order_id']);
+        }
+
+        if ($data['created_after'] ?? false) {
+            $query->where('created_at', '>=', $data['created_after']);
+        }
+
+        if ($data['created_before'] ?? false) {
+            $query->where('created_before', '<=', $data['created_before']);
+        }
+
+        if ($data['status'] ?? false) {
+            $query->where('status', OrderStatus::from($data['status'])->value);
+        }
+
+        return response()->json($query->paginate(100));
     }
 }

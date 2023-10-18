@@ -19,5 +19,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::apiResource('orders', OrderController::class);
+Route::post('/orders', [OrderController::class, 'store']);
 Route::post('/order/{orderId}/status', [OrderController::class, 'status']);
+Route::post('/orders/list', [OrderController::class, 'list']);
