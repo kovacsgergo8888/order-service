@@ -15,19 +15,19 @@ class ListOrdersController extends Controller
         $query = Order::query();
 
         if ($data['order_id'] ?? false) {
-            $query->where('order_id', $data['order_id']);
+            $query->orderId($data['order_id']);
         }
 
         if ($data['created_after'] ?? false) {
-            $query->where('created_at', '>=', $data['created_after']);
+            $query->createdAfter($data['created_after']);
         }
 
         if ($data['created_before'] ?? false) {
-            $query->where('created_before', '<=', $data['created_before']);
+            $query->createdBefore($data['created_before']);
         }
 
         if ($data['status'] ?? false) {
-            $query->where('status', OrderStatus::from($data['status'])->value);
+            $query->status(OrderStatus::from($data['status']));
         }
 
         $orders = $query->paginate(

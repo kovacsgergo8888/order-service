@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
+use App\OrderService\OrderStatus;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Builder;
 
 class Order extends Model
 {
@@ -34,6 +36,26 @@ class Order extends Model
     public function orderProducts(): HasMany
     {
         return $this->hasMany(OrderProduct::class, 'order_id');
+    }
+
+    public function scopeOrderId(Builder $query, string $orderId): void
+    {
+        $query->where('order_id', $orderId);
+    }
+
+    public function scopeStatus(Builder $query, OrderStatus $status): void
+    {
+        $query->where('status', $status->value);
+    }
+
+    public function scopeCreatedAfter(Builder $query, string $createdAfter): void
+    {
+        $query->where('created_at', '>=', $createdAfter);
+    }
+
+    public function scopeCreatedBefore(Builder $query, string $createdBefore): void
+    {
+        $query->where('created_at', '<=', $createdBefore);
     }
 
     public function orderTotal(): Attribute
