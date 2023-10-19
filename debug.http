@@ -30,7 +30,7 @@ Accept: application/json
 
 ###
 
-POST http://localhost/api/order/9a64d9d8-f5b1-4ad3-95b1-96619b3cc843/status
+POST http://localhost/api/order/9a687816-4497-44ac-b544-a97f3c4212d9/status
 Content-Type: application/json
 Accept: application/json
 
@@ -44,6 +44,3 @@ POST http://localhost/api/orders/list
 Content-Type: application/json
 Accept: application/json
 
-{
-    "status": "FULLFILLED"
-}

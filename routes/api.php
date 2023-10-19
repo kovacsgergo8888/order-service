@@ -1,6 +1,8 @@
 <?php
 
-use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ChangeOrderStatusController;
+use App\Http\Controllers\CreateOrderController;
+use App\Http\Controllers\ListOrdersController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -19,6 +21,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/orders', [OrderController::class, 'store']);
-Route::post('/order/{orderId}/status', [OrderController::class, 'status']);
-Route::post('/orders/list', [OrderController::class, 'list']);
+Route::post('/orders', CreateOrderController::class);
+Route::post('/order/{orderId}/status', ChangeOrderStatusController::class);
+Route::post('/orders/list', ListOrdersController::class);

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -33,5 +34,16 @@ class Order extends Model
     public function orderProducts(): HasMany
     {
         return $this->hasMany(OrderProduct::class, 'order_id');
+    }
+
+    public function orderTotal(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => array_reduce(
+                $this->orderProducts()->get()->all(),
+                fn($carry, $orderProduct) => $carry += $orderProduct->price * $orderProduct->quantity,
+                0
+            )
+        );
     }
 }
