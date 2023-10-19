@@ -21,6 +21,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/orders', CreateOrderController::class);
-Route::post('/order/{orderId}/status', ChangeOrderStatusController::class);
-Route::post('/orders/list', ListOrdersController::class);
+Route::post('/orders', CreateOrderController::class)->name('create-order');
+Route::post('/order/{orderId}/status', ChangeOrderStatusController::class)->name('change-order-status');
+Route::post('/orders/list', ListOrdersController::class)->name('list-orders');
