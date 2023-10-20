@@ -50,6 +50,27 @@ docker compose up -d
 
 _Maybe you need to change the port, if your port 80 is bus. You can do it by adding an APP_PORT= row in the .env file._
 
+Then you need to create the database:
+
+Enter the app's docker container
+
+```shell
+docker compose exec -ti laravel.test bash
+```
+
+Create the database:
+
+```shell
+php artisan migrate
+```
+_choose yes when asking for database creation_
+
+You can seed some data to the database
+
+```shell
+php artisan db:seed
+```
+
 #### How to try the app
 
 You can find a [`debug.http`](debug.http) REST client file with some example requests. Feel free to try with VSCode or PHPStorm.
@@ -61,3 +82,16 @@ php artisan app:change-order-status <orderId> <status>
 php artisan app:create-order <requestBodyInJson>
 php artisan app:list-orders [--orderId=] [--status=] [createdAfter=] [createdBefore=]
 ```
+
+#### Run tests
+
+If your local environment is working, you can run tests (inside from the docker container):
+
+```shell
+./vendor/bin/phpunit
+```
+_(Now the test env using the same database, so after running test, your previous data will be purged)_
+
+#### Open API
+
+Check the swagger docs at the [link](http://localhost/api/doc)
