@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
-        for ($i = 0; $i < 1000; $i++) {
+        for ($i = 0; $i < 110; $i++) {
             $order = Order::create([
                 'name' => 'Johnny Silverhand',
                 'email'=> 'arasaki@hater.com',
