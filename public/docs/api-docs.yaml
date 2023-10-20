@@ -1,0 +1,214 @@
+openapi: 3.0.3
+info:
+  title: Order service 1.0
+  description: |-
+    An order service to create orders, change order status, list orders.
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: apiteam@swagger.io
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.11
+servers:
+  - url: http://localhost/api
+tags:
+  - name: order
+    description: Order
+paths:
+  /orders:
+    post:
+      tags:
+        - order
+      summary: create order
+      description: Create order
+      operationId: createOrder
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderCreateInput'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  order_id:
+                    type: string
+                    format: uuid
+  /orders/{order_id}/status:
+    post:
+      tags:
+        - order
+      summary: change order status
+      description: "Change the status of an order. Available values: NEW, FULLFILLED"
+      parameters:
+        - in: path
+          name: 'order_id'
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: string
+                  enum:
+                    - NEW
+                    - FULLFILLED
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+  /orders/list:
+    post:
+      tags:
+        - order
+      parameters:
+        - in: query
+          name: order_id
+          schema:
+            type: string
+        - in: query
+          name: status
+          schema:
+            type: string
+            enum:
+              - NEW
+              - FULLFILLED
+        - in: query
+          name: created_after
+          schema:
+            type: string
+            format: date
+        - in: query
+          name: created_before
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: list of orders
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  order_id:
+                    type: string
+                    format: uuid
+                  status:
+                    type: string
+                    enum:
+                      - NEM
+                      - FULLFILLED
+                  name:
+                    type: string
+                  created_at:
+                    type: string
+                    format: date-time
+                  order_total:
+                    type: number
+                    format: double
+
+
+
+
+components:
+  schemas:
+    OrderCreateInput:
+      type: object
+      properties:
+        order_id:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+          description: customer name
+        email:
+          type: string
+          description: customer email
+        shipping_name:
+          type: string
+          description: adressee name
+        shipping_postcode:
+          type: string
+        shipping_city:
+          type: string
+        shipping_adress:
+          type: string
+        billing_name:
+          type: string
+          description: name on bill
+        billing_postcode:
+          type: string
+        billing_city:
+          type: string
+        billing_adress:
+          type: string
+        order_products:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderProduct'
+    Order:
+      type: object
+      properties:
+        order_id:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+          description: customer name
+        status:
+          enum:
+            - NEW
+            - FULLFILLED
+        email:
+          type: string
+          description: customer email
+        shipping_name:
+          type: string
+          description: adressee name
+        shipping_postcode:
+          type: string
+        shipping_city:
+          type: string
+        shipping_adress:
+          type: string
+        billing_name:
+          type: string
+          description: name on bill
+        billing_postcode:
+          type: string
+        billing_city:
+          type: string
+        billing_adress:
+          type: string
+        order_products:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderProduct'
+    OrderProduct:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Ordered product name
+        price:
+          type: number
+          description: Price of one product
+        quantity:
+          type: integer

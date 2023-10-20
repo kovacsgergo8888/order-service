@@ -5,16 +5,16 @@ Accept: application/json
 {
     "name": "Johnny Silverhand",
     "email": "arasaki@hater.com",
-    "shippingType": "COURIER_SHIPPING",
-    "shippingName": "Test John",
-    "shippingPostcode": "1234",
-    "shippingCity": "Night City",
-    "shippingAddress": "Street 1",
-    "billingName": "Test John",
-    "billingPostcode": "1234",
-    "billingCity": "Night City",
-    "billingAddress": "Street 2",
-    "orderProducts": [
+    "shipping_type": "COURIER_SHIPPING",
+    "shipping_name": "Test John",
+    "shipping_postcode": "1234",
+    "shipping_city": "Night City",
+    "shipping_address": "Street 1",
+    "billing_name": "Test John",
+    "billing_postcode": "1234",
+    "billing_city": "Night City",
+    "billing_address": "Street 2",
+    "order_products": [
         {
             "name": "Gun",
             "price": 4000,
