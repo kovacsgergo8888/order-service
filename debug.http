@@ -44,3 +44,8 @@ POST http://localhost/api/orders/list
 Content-Type: application/json
 Accept: application/json
 
+{
+    "status": "FULLFILLED",
+    "created_after": "2010-01-01",
+    "created_before": "2025-01-01"
+}
