@@ -1,12 +1,85 @@
 = Order service
 
+== Problem
 
+No service to manage orders.
+
+== Actors
+
+* customer place orders in store
+* admin user list orders, change status
 
 == Story
 
-
+As a customer, I place order in store, so I can get no goods
 
 [source,gherkin]
 ----
-include::../features/order.feature[]
+include::../features/order.feature[tag=store]
+----
+
+'''
+
+As an admin user I can manage orders, so I can send the goods to the customer
+
+[source,gherkin]
+----
+include::../features/order.feature[tag=admin]
+----
+
+== Tech info
+
+=== C4 model
+
+[plantuml]
+----
+title Level 1
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+
+Person_Ext(customer, Customer)
+Person_Ext(adminUser, Admin)
+System_Ext(WebshopEngine, Webshop engine)
+System(OrderService, Order Service)
+SystemDb(OrderServiceDb, Order Service database)
+
+Rel(customer, WebshopEngine, place order)
+Rel(adminUser, WebshopEngine, manage orders on admin)
+Rel(WebshopEngine, OrderService, use)
+Rel(OrderService, OrderServiceDb, use)
+----
+
+[plantuml]
+----
+title Level 2
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+System_Ext(WebshopEngine, Webshop engine)
+System_Boundary(OrderService, Order Service) {
+    Container(OrderServiceLaravel, Order service API app, laravel)
+}
+SystemDb(OrderServiceDb, Order service database, mysql)
+
+Rel(WebshopEngine, OrderServiceLaravel, "create, list, change status order", "HTTP, REST")
+Rel(OrderServiceLaravel, OrderServiceDb, CRUD, "Eloquent")
+----
+
+[plantuml]
+----
+title Level 3
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+System_Ext(WebshopEngine, Webshop engine)
+Container_Boundary(orderService, Order Service API app) {
+    Component(routing, Routing, laravel)
+    Component(controllers, Order Controllers, laravel)
+    Component(models, Order Models, "Eloquent")
+    Component(queryBuilder, List query builder, php)
+}
+SystemDb(OrderServiceDb, Order service database, mysql)
+
+Rel(WebshopEngine, routing, "use")
+Rel(routing, controllers, )
+Rel(controllers, models,)
+Rel(controllers, queryBuilder, build query for order list, laravel DI)
+Rel(models, OrderServiceDb,)
 ----
