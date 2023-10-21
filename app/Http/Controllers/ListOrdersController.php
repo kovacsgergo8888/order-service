@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\ListOrdersQueryBuilder;
 use App\Models\Order;
-use App\OrderService\OrderStatus;
 use Illuminate\Http\Request;
 
 class ListOrdersController extends Controller
